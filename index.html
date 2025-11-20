@@ -1,348 +1,953 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mr. Abuhurira With Blackjin Akash</title>
+    <title>Premium Apps Collection</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Tiro+Bangla&display=swap');
-        
+        /* Global Styles */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Tiro Bangla', serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+
+        :root {
+            --primary-red: #e63946;
+            --dark-red: #d00000;
+            --light-red: #ff6b6b;
+            --white: #ffffff;
+            --light-gray: #f8f9fa;
+            --dark-gray: #333333;
+        }
+
         body {
-            background-color: #121212;
-            color: #fff;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            background-color: var(--white);
+            color: var(--dark-gray);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
             padding: 20px;
-            background-image: radial-gradient(#1a1a1a 1px, transparent 1px);
-            background-size: 20px 20px;
         }
-        
-        .profile {
+
+        /* Header Styles */
+        header {
+            background-color: var(--primary-red);
+            color: var(--white);
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
             display: flex;
-            flex-direction: column;
+            justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px;
+            flex-wrap: wrap;
         }
-        
-        .profile-pic {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid #00ff00;
-            box-shadow: 0 0 15px #00ff00;
+
+        .logo h1 {
+            font-size: 28px;
+            font-weight: 700;
         }
-        
-        .profile-name {
-            margin-top: 15px;
-			color: #00ff00;
-            font-size: 22px;
-            text-align: center;
+
+        .logo p {
+            font-size: 14px;
+            opacity: 0.9;
         }
-        
-        .profile-name span {
-            color: red;
-        }
-        
-        .buttons {
+
+        .search-bar {
             display: flex;
-            flex-direction: column;
-            gap: 15px;
-            width: 100%;
-            max-width: 400px;
+            margin: 10px 0;
         }
-        
-        .btn {
-            padding: 12px;
+
+        .search-bar input {
+            padding: 10px 15px;
             border: none;
-            border-radius: 8px;
-            font-size: 18px;
-            font-weight: bold;
+            border-radius: 4px 0 0 4px;
+            width: 300px;
+            font-size: 16px;
+        }
+
+        .search-bar button {
+            background-color: var(--dark-red);
+            color: var(--white);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 0 4px 4px 0;
             cursor: pointer;
+            font-weight: 600;
+        }
+
+        .admin-login-btn {
+            background-color: var(--white);
+            color: var(--primary-red);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .admin-login-btn:hover {
+            background-color: var(--light-gray);
+        }
+
+        /* Main Content Styles */
+        .hero {
+            text-align: center;
+            padding: 50px 0;
+            background-color: var(--light-gray);
+        }
+
+        .hero h2 {
+            font-size: 36px;
+            margin-bottom: 10px;
+            color: var(--primary-red);
+        }
+
+        .hero p {
+            font-size: 18px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .apps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .app-card {
+            background-color: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .app-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .app-image {
+            height: 180px;
+            background-color: var(--light-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .app-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .app-info {
+            padding: 20px;
+        }
+
+        .app-name {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--dark-gray);
+        }
+
+        .app-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .download-btn, .website-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
             text-align: center;
             text-decoration: none;
-            color: #000;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-        
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+
+        .download-btn {
+            background-color: var(--primary-red);
+            color: var(--white);
         }
-        
-        .btn-facebook {
-            background-color: #1877f2;
-            color: white;
+
+        .download-btn:hover {
+            background-color: var(--dark-red);
         }
-        
-        .btn-facebook:hover {
-            background-color: #166fe5;
-            box-shadow: 0 6px 10px rgba(24, 119, 242, 0.4);
+
+        .website-btn {
+            background-color: var(--light-gray);
+            color: var(--dark-gray);
         }
-        
-        .btn-youtube {
-            background-color: #ff0000;
-            color: white;
+
+        .website-btn:hover {
+            background-color: #e9ecef;
         }
-        
-        .btn-youtube:hover {
-            background-color: #e60000;
-            box-shadow: 0 6px 10px rgba(255, 0, 0, 0.4);
+
+        /* Admin Panel Styles */
+        .admin-panel {
+            display: none;
+            background-color: var(--light-gray);
+            padding: 30px;
+            border-radius: 8px;
+            margin-top: 40px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
-        
-        .btn-tiktok {
-            background-color: #000000;
-            color: white;
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #ddd;
         }
-        
-        .btn-tiktok:hover {
-            background-color: #333333;
-            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.4);
+
+        .admin-title {
+            font-size: 24px;
+            color: var(--primary-red);
         }
-        
-        .btn-website {
-            background-color: #9400d3;
-            color: white;
+
+        .admin-logout {
+            background-color: var(--primary-red);
+            color: var(--white);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
         }
-        
-        .btn-website:hover {
-            background-color: #8a00c2;
-            box-shadow: 0 6px 10px rgba(148, 0, 211, 0.4);
+
+        .admin-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
         }
-        
-        .btn-details {
-            background-color: #FFA500;
-            color: white;
-            margin-top: 10px;
-        }
-        
-        .btn-details:hover {
-            background-color: #e69500;
-            box-shadow: 0 6px 10px rgba(255, 165, 0, 0.4);
-        }
-        
-        .help-box {
-            background-color: #1e1e1e;
-            border: 1px solid #333;
-            border-radius: 10px;
+
+        .stat-card {
+            background-color: var(--white);
             padding: 20px;
-            margin-top: 30px;
-            width: 100%;
-            max-width: 400px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
         }
-        
-        .details-box {
-            background-color: #1e1e1e;
-            border: 1px solid #333;
-            border-radius: 10px;
-            padding: 20px;
-            margin-top: 20px;
-            width: 100%;
-            max-width: 400px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary-red);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--dark-gray);
+        }
+
+        .admin-tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .tab-btn {
+            padding: 10px 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--dark-gray);
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab-btn.active {
+            color: var(--primary-red);
+            border-bottom: 3px solid var(--primary-red);
+        }
+
+        .tab-content {
             display: none;
         }
-        
-        .details-box.show {
+
+        .tab-content.active {
             display: block;
-            animation: fadeIn 0.5s ease;
         }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        .help-title {
-            text-align: center;
-            margin-bottom: 15px;
-            font-size: 18px;
-            color: #00ff00;
-        }
-        
-        .details-title {
-            text-align: center;
-            margin-bottom: 15px;
-            font-size: 18px;
-            color: #FFA500;
-        }
-        
-        .details-content {
-            font-size: 16px;
-            line-height: 1.6;
-            text-align: justify;
-        }
-        
+
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
-        
-        label {
+
+        .form-group label {
             display: block;
-            margin-bottom: 5px;
-            font-size: 16px;
+            margin-bottom: 8px;
+            font-weight: 600;
         }
-        
-        input, textarea {
+
+        .form-group input, .form-group textarea {
             width: 100%;
             padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #444;
-            background-color: #333;
-            color: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
             font-size: 16px;
         }
-        
-        textarea {
-            min-height: 100px;
-            resize: vertical;
-        }
-        
+
         .submit-btn {
-            background-color: #00aa00;
-            color: white;
-            padding: 12px;
+            background-color: var(--primary-red);
+            color: var(--white);
             border: none;
-            border-radius: 5px;
-            font-size: 18px;
+            padding: 12px 25px;
+            border-radius: 4px;
             cursor: pointer;
-            width: 100%;
-            transition: all 0.3s ease;
-        }
-        
-        .submit-btn:hover {
-            background-color: #008800;
-            box-shadow: 0 4px 8px rgba(0, 170, 0, 0.4);
-        }
-        
-        .privacy-policy {
-            margin-top: 30px;
-            text-align: center;
-            font-size: 14px;
-            color: #FFFF00;
-            font-style: italic;
-        }
-        
-		
-		.privacy-policy span {
-		
-		color: #00ff00;
-		font-weight: bold;
-		}
-		
-		
-		
-        .success-message {
-            display: none;
-            color: #00ff00;
-            text-align: center;
-            margin-top: 15px;
             font-size: 16px;
+            font-weight: 600;
+        }
+
+        .visitors-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .visitors-table th, .visitors-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .visitors-table th {
+            background-color: var(--light-gray);
+            font-weight: 600;
+        }
+
+        /* Login Modal */
+        .login-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-content {
+            background-color: var(--white);
+            padding: 30px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .login-title {
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--primary-red);
+            font-size: 24px;
+        }
+
+        .close-modal {
+            float: right;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--dark-gray);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark-gray);
+            color: var(--white);
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 50px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+           
+            .search-bar {
+                width: 100%;
+                margin: 15px 0;
+            }
+           
+            .search-bar input {
+                width: 100%;
+            }
+           
+            .admin-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
     </style>
 </head>
 <body>
-    <div class="profile">
-        <img src="https://scontent.fdac31-1.fna.fbcdn.net/v/t39.30808-6/517361972_644908665292771_8303795616534309695_n.jpg?stp=dst-jpg_p526x296_tt6&_nc_cat=111&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeGooky143Q6Mlqp3Y-uhfIOTE61QWj7DQxMTrVBaPsNDNuZHPl3rOjcw1P7R2ZsgZmviVKxOXolQ04zPj3mZPpj&_nc_ohc=ezd7EeQMu7IQ7kNvwFaDfNB&_nc_oc=AdngjWjtBZpmWg97EzZJkMXOgIPbfXHBHMnAB4joPSF9o0NgYKIAGkUoG9BSmDpnVO8&_nc_zt=23&_nc_ht=scontent.fdac31-1.fna&_nc_gid=Jdhr6ROSKcBQLzuc48-vUQ&oh=00_AfR5eg0ZvbGVGxgtnB0MDfJhdbpDAatyz4MNsYUe4W8r8w&oe=687B897C" alt="Profile Picture" class="profile-pic">
-        <div class="profile-name">Mr. Abuhurira <span>With</span> Blackjin Akash</div>
-    </div>
-    
-    <div class="buttons">
-        <a href="https://facebook.com/Blackjin.akash" class="btn btn-facebook">Facebook ⓕ</a>
-        <a href="https://youtube.com/@BlackjinAkash" class="btn btn-youtube">YouTube ▶️</a>
-        <a href="https://tiktok.com/@blackjin_akash" class="btn btn-tiktok">TikTok ️🎵</a>
-        <a href="https://taptocrash.com" class="btn btn-website">Website 🔗</a>
-        <button id="detailsBtn" class="btn btn-details">তার সম্পর্কে বিস্তারিত জানুন 👤</button>
-    </div>
-    
-    <div id="detailsBox" class="details-box">
-        <div class="details-title">Mr. Abuhurira with Blackjin Akash about 🌟</div>
-        <div class="details-content">
-            <p>নাম: মিস্টার আবুহুরাইরা আকাশ with ব্ল্যাকজিন আকাশ</p>
-            <p>পেশা: আমি একজন শিক্ষার্থী, তবে ফ্রি টাইমে একটি পার্টটাইম জব করি 💼</p>
-            <p>আমার শখ: সোশ্যাল ওয়ার্কে অ্যাক্টিভ থাকা, যেমন: কন্টেন্ট ক্রিয়েশন (ইউটিউব, ফেসবুক, টিকটক) এবং ওয়েবসাইট বানানো (Programming: HTML, CSS ইত্যাদি) 🎥💻</p>
-            <p>যোগাযোগ: এই ফর্মটি ফিলাপ করে সাবমিট করুন, আমি আপনার নম্বরে কন্টাক্ট করব 📞</p>
-            <p>লোকেশন: সাতক্ষীরা, খুলনা, বাংলাদেশ 🇧🇩</p>
-            <p>বায়ো: আল্লাহ সবাইকে ছাড় দেন, কিন্তু কখনও ছেড়ে দেন না! তাই সময় থাকতে আল্লাহর পথে ফিরে আসুন 🙏</p>
-            <p>আপনি চাইলে আমার সোশ্যাল মিডিয়ায় কানেক্টেড থাকতে পারেন 📱</p>
+    <!-- Header Section -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <h1>Try Your Premium Apps</h1>
+                <p>Made by Mr. Abuhurira Akash</p>
+            </div>
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Search for apps...">
+                <button id="searchBtn">Search</button>
+            </div>
+            <button class="admin-login-btn" id="adminLoginBtn">Admin Login</button>
+        </div>
+    </header>
+
+    <!-- Main Content Section -->
+    <main class="container">
+        <section class="hero">
+            <h2>Premium Apps Collection</h2>
+            <p>Discover and download high-quality applications for all your needs. All apps are carefully selected and tested.</p>
+        </section>
+
+        <!-- Apps Grid -->
+        <section class="apps-grid" id="appsGrid">
+            <!-- Apps will be dynamically loaded here -->
+        </section>
+
+        <!-- Admin Panel (Hidden by default) -->
+        <section class="admin-panel" id="adminPanel">
+            <div class="admin-header">
+                <h2 class="admin-title">Admin Dashboard</h2>
+                <button class="admin-logout" id="adminLogout">Logout</button>
+            </div>
+
+            <!-- Admin Statistics -->
+            <div class="admin-stats">
+                <div class="stat-card">
+                    <div class="stat-value" id="totalVisitors">0</div>
+                    <div class="stat-label">Total Visitors</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="todayVisitors">0</div>
+                    <div class="stat-label">Today Visitors</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="totalDownloads">0</div>
+                    <div class="stat-label">Total Downloads</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="totalApps">0</div>
+                    <div class="stat-label">Total Apps</div>
+                </div>
+            </div>
+
+            <!-- Admin Tabs -->
+            <div class="admin-tabs">
+                <button class="tab-btn active" data-tab="add-app">Add App</button>
+                <button class="tab-btn" data-tab="visitors">Visitors</button>
+                <button class="tab-btn" data-tab="downloads">Downloads</button>
+            </div>
+
+            <!-- Add App Tab -->
+            <div class="tab-content active" id="add-app">
+                <form id="addAppForm">
+                    <div class="form-group">
+                        <label for="appName">App Name</label>
+                        <input type="text" id="appName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="appImage">App Image URL</label>
+                        <input type="text" id="appImage" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="appFile">APK File URL</label>
+                        <input type="text" id="appFile" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="appWebsite">Website URL (Optional)</label>
+                        <input type="text" id="appWebsite">
+                    </div>
+                    <button type="submit" class="submit-btn">Add App</button>
+                </form>
+            </div>
+
+            <!-- Visitors Tab -->
+            <div class="tab-content" id="visitors">
+                <table class="visitors-table">
+                    <thead>
+                        <tr>
+                            <th>IP Address</th>
+                            <th>Location</th>
+                            <th>Device</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="visitorsTableBody">
+                        <!-- Visitors data will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Downloads Tab -->
+            <div class="tab-content" id="downloads">
+                <table class="visitors-table">
+                    <thead>
+                        <tr>
+                            <th>App Name</th>
+                            <th>IP Address</th>
+                            <th>Location</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="downloadsTableBody">
+                        <!-- Downloads data will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <!-- Login Modal -->
+    <div class="login-modal" id="loginModal">
+        <div class="login-content">
+            <span class="close-modal" id="closeModal">&times;</span>
+            <h2 class="login-title">Admin Login</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="adminPasscode">Passcode</label>
+                    <input type="password" id="adminPasscode" required>
+                </div>
+                <button type="submit" class="submit-btn">Login</button>
+            </form>
         </div>
     </div>
-    
-    <div class="help-box">
-        <div class="help-title">আপনার কি কোনো হেল্প প্রয়োজন? Mr. Abuhurira Akash এর থেকে যদি প্রয়োজন হয় তাহলে নিচের ফর্মটি সাবমিট করুন</div>
-        
-        <form id="helpForm" action="https://formspree.io/f/xvgqpeaj" method="POST">
-            <div class="form-group">
-                <label for="number">Number*</label>
-                <input type="tel" id="number" name="number" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="helpDetail">হেল্প ডিটেইল*</label>
-                <textarea id="helpDetail" name="helpDetail" required></textarea>
-            </div>
-            
-            <button type="submit" class="submit-btn">সাবমিট করুন</button>
-            <div id="successMessage" class="success-message">ধন্যবাদ! আপনার ফর্ম সফলভাবে জমা হয়েছে।</div>
-        </form>
-    </div>
-    
-    <div class="privacy-policy"><u>প্রাইভেসি পলিসি: আপনার তথ্য শুধুমাত্র যোগাযোগের জন্য ব্যবহৃত হবে এবং অন্য কোনো উদ্দেশ্যে শেয়ার করা হবে না।</u><br><br><span>@Copyright- Make By #Mr_Abuhurira<span></div>
-    
-    <script>
-        // Details button functionality
-        const detailsBtn = document.getElementById('detailsBtn');
-        const detailsBox = document.getElementById('detailsBox');
-        
-        detailsBtn.addEventListener('click', function() {
-            detailsBox.classList.toggle('show');
-        });
-        
-        // Form submission
-        document.getElementById('helpForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Get the form data
-            const formData = new FormData(this);
-            
-            // Submit the form using fetch
-            fetch(this.action, {
-                method: this.method,
-                body: formData,
-                headers: {
-                    'Accept': 'application/json'
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Premium Apps Collection. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-analytics.js";
+        import { getFirestore, collection, addDoc, getDocs, updateDoc, doc, increment, query, where, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAEckGoJXFWwAbQ7yFVg261EC8DksmgxSY",
+            authDomain: "islamic---web.firebaseapp.com",
+            projectId: "islamic---web",
+            storageBucket: "islamic---web.firebasestorage.app",
+            messagingSenderId: "82764871971",
+            appId: "1:82764871971:web:1bec96ff6431e94e99b496",
+            measurementId: "G-YVV8J8EDRP"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const db = getFirestore(app);
+
+        // DOM Elements
+        const appsGrid = document.getElementById('appsGrid');
+        const adminPanel = document.getElementById('adminPanel');
+        const adminLoginBtn = document.getElementById('adminLoginBtn');
+        const adminLogout = document.getElementById('adminLogout');
+        const loginModal = document.getElementById('loginModal');
+        const closeModal = document.getElementById('closeModal');
+        const loginForm = document.getElementById('loginForm');
+        const addAppForm = document.getElementById('addAppForm');
+        const searchInput = document.getElementById('searchInput');
+        const searchBtn = document.getElementById('searchBtn');
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+        const visitorsTableBody = document.getElementById('visitorsTableBody');
+        const downloadsTableBody = document.getElementById('downloadsTableBody');
+        const totalVisitorsEl = document.getElementById('totalVisitors');
+        const todayVisitorsEl = document.getElementById('todayVisitors');
+        const totalDownloadsEl = document.getElementById('totalDownloads');
+        const totalAppsEl = document.getElementById('totalApps');
+
+        // Admin passcode (in a real app, this should be more secure)
+        const ADMIN_PASSCODE = "admin123";
+
+        // Check if user is logged in
+        let isAdminLoggedIn = localStorage.getItem('isAdminLoggedIn') === 'true';
+
+        // Initialize the app
+        function initApp() {
+            // Show/hide admin panel based on login status
+            if (isAdminLoggedIn) {
+                adminPanel.style.display = 'block';
+                loadAdminData();
+            } else {
+                adminPanel.style.display = 'none';
+            }
+
+            // Load apps
+            loadApps();
+
+            // Record visitor
+            recordVisitor();
+        }
+
+        // Load apps from Firestore
+        async function loadApps() {
+            try {
+                const querySnapshot = await getDocs(collection(db, "apps"));
+                appsGrid.innerHTML = '';
+               
+                querySnapshot.forEach((doc) => {
+                    const app = doc.data();
+                    const appCard = createAppCard(app, doc.id);
+                    appsGrid.appendChild(appCard);
+                });
+               
+                // Update total apps count in admin panel
+                if (isAdminLoggedIn) {
+                    totalAppsEl.textContent = querySnapshot.size;
                 }
-            })
-            .then(response => {
-                if (response.ok) {
-                    // Show success message
-                    document.getElementById('successMessage').style.display = 'block';
-                    // Reset the form
-                    this.reset();
-                    // Hide success message after 5 seconds
-                    setTimeout(() => {
-                        document.getElementById('successMessage').style.display = 'none';
-                    }, 5000);
+            } catch (error) {
+                console.error("Error loading apps: ", error);
+            }
+        }
+
+        // Create app card HTML
+        function createAppCard(app, id) {
+            const appCard = document.createElement('div');
+            appCard.className = 'app-card';
+            appCard.innerHTML = `
+                <div class="app-image">
+                    <img src="${app.imageUrl}" alt="${app.name}" onerror="this.src='https://via.placeholder.com/300x180?text=App+Image'">
+                </div>
+                <div class="app-info">
+                    <h3 class="app-name">${app.name}</h3>
+                    <div class="app-actions">
+                        <button class="download-btn" data-app-id="${id}">Download</button>
+                        ${app.websiteUrl ? `<a href="${app.websiteUrl}" target="_blank" class="website-btn">Website</a>` : ''}
+                    </div>
+                </div>
+            `;
+           
+            // Add download event listener
+            const downloadBtn = appCard.querySelector('.download-btn');
+            downloadBtn.addEventListener('click', () => downloadApp(id, app.name));
+           
+            // Add website click tracking if admin is logged in
+            if (app.websiteUrl && isAdminLoggedIn) {
+                const websiteBtn = appCard.querySelector('.website-btn');
+                websiteBtn.addEventListener('click', () => recordWebsiteClick(id, app.name));
+            }
+           
+            return appCard;
+        }
+
+        // Download app function
+        async function downloadApp(appId, appName) {
+            try {
+                // Get app data
+                const appDoc = await getDocs(query(collection(db, "apps"), where("__name__", "==", appId)));
+                let appData = null;
+                appDoc.forEach((doc) => {
+                    appData = doc.data();
+                });
+               
+                if (appData && appData.fileUrl) {
+                    // Record download
+                    await recordDownload(appId, appName);
+                   
+                    // Start download
+                    window.open(appData.fileUrl, '_blank');
                 } else {
-                    throw new Error('Form submission failed');
+                    alert('Download link not available for this app.');
                 }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('ফর্ম জমা দেওয়ার সময় একটি ত্রুটি ঘটেছে। দয়া করে পরে আবার চেষ্টা করুন।');
+            } catch (error) {
+                console.error("Error downloading app: ", error);
+                alert('Error downloading app. Please try again.');
+            }
+        }
+
+        // Record visitor information
+        async function recordVisitor() {
+            try {
+                // Get visitor IP (using a free IP API)
+                const ipResponse = await fetch('https://api.ipify.org?format=json');
+                const ipData = await ipResponse.json();
+                const ip = ipData.ip;
+               
+                // Get location data (using a free IP geolocation API)
+                const locationResponse = await fetch(`https://ipapi.co/${ip}/json/`);
+                const locationData = await locationResponse.json();
+               
+                const visitorData = {
+                    ip: ip,
+                    location: `${locationData.city}, ${locationData.country_name}`,
+                    device: navigator.userAgent,
+                    timestamp: new Date().toISOString(),
+                    date: new Date().toLocaleDateString()
+                };
+               
+                // Add to Firestore
+                await addDoc(collection(db, "visitors"), visitorData);
+               
+            } catch (error) {
+                console.error("Error recording visitor: ", error);
+                // Fallback if IP APIs fail
+                const visitorData = {
+                    ip: 'Unknown',
+                    location: 'Unknown',
+                    device: navigator.userAgent,
+                    timestamp: new Date().toISOString(),
+                    date: new Date().toLocaleDateString()
+                };
+               
+                await addDoc(collection(db, "visitors"), visitorData);
+            }
+        }
+
+        // Record download
+        async function recordDownload(appId, appName) {
+            try {
+                // Get visitor IP
+                const ipResponse = await fetch('https://api.ipify.org?format=json');
+                const ipData = await ipResponse.json();
+                const ip = ipData.ip;
+               
+                // Get location data
+                const locationResponse = await fetch(`https://ipapi.co/${ip}/json/`);
+                const locationData = await locationResponse.json();
+               
+                const downloadData = {
+                    appId: appId,
+                    appName: appName,
+                    ip: ip,
+                    location: `${locationData.city}, ${locationData.country_name}`,
+                    device: navigator.userAgent,
+                    timestamp: new Date().toISOString(),
+                    date: new Date().toLocaleDateString()
+                };
+               
+                // Add to Firestore
+                await addDoc(collection(db, "downloads"), downloadData);
+               
+                // Update app download count
+                const appRef = doc(db, "apps", appId);
+                await updateDoc(appRef, {
+                    downloadCount: increment(1)
+                });
+               
+            } catch (error) {
+                console.error("Error recording download: ", error);
+            }
+        }
+
+        // Record website click
+        async function recordWebsiteClick(appId, appName) {
+            try {
+                // Get visitor IP
+                const ipResponse = await fetch('https://api.ipify.org?format=json');
+                const ipData = await ipResponse.json();
+                const ip = ipData.ip;
+               
+                // Get location data
+                const locationResponse = await fetch(`https://ipapi.co/${ip}/json/`);
+                const locationData = await locationResponse.json();
+               
+                const websiteClickData = {
+                    appId: appId,
+                    appName: appName,
+                    ip: ip,
+                    location: `${locationData.city}, ${locationData.country_name}`,
+                    device: navigator.userAgent,
+                    timestamp: new Date().toISOString(),
+                    date: new Date().toLocaleDateString()
+                };
+               
+                // Add to Firestore
+                await addDoc(collection(db, "websiteClicks"), websiteClickData);
+               
+            } catch (error) {
+                console.error("Error recording website click: ", error);
+            }
+        }
+
+        // Load admin data
+        function loadAdminData() {
+            // Load visitors data
+            const visitorsQuery = query(collection(db, "visitors"), orderBy("timestamp", "desc"));
+            onSnapshot(visitorsQuery, (snapshot) => {
+                visitorsTableBody.innerHTML = '';
+                let totalVisitors = 0;
+                let todayVisitors = 0;
+                const today = new Date().toLocaleDateString();
+               
+                snapshot.forEach((doc) => {
+                    const visitor = doc.data();
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${visitor.ip}</td>
+                        <td>${visitor.location}</td>
+                        <td>${visitor.device.substring(0, 50)}...</td>
+                        <td>${new Date(visitor.timestamp).toLocaleString()}</td>
+                    `;
+                    visitorsTableBody.appendChild(row);
+                   
+                    totalVisitors++;
+                    if (visitor.date === today) {
+                        todayVisitors++;
+                    }
+                });
+               
+                totalVisitorsEl.textContent = totalVisitors;
+                todayVisitorsEl.textContent = todayVisitors;
+            });
+           
+            // Load downloads data
+            const downloadsQuery = query(collection(db, "downloads"), orderBy("timestamp", "desc"));
+            onSnapshot(downloadsQuery, (snapshot) => {
+                downloadsTableBody.innerHTML = '';
+                let totalDownloads = 0;
+               
+                snapshot.forEach((doc) => {
+                    const download = doc.data();
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${download.appName}</td>
+                        <td>${download.ip}</td>
+                        <td>${download.location}</td>
+                        <td>${new Date(download.timestamp).toLocaleString()}</td>
+                    `;
+                    downloadsTableBody.appendChild(row);
+                   
+                    totalDownloads++;
+                });
+               
+                totalDownloadsEl.textContent = totalDownloads;
+            });
+           
+            // Load total apps count
+            const appsQuery = collection(db, "apps");
+            onSnapshot(appsQuery, (snapshot) => {
+                totalAppsEl.textContent = snapshot.size;
+            });
+        }
+
+        // Event Listeners
+        adminLoginBtn.addEventListener('click', () => {
+            loginModal.style.display = 'flex';
+        });
+
+        closeModal.addEventListener('click', () => {
+            loginModal.style.display = 'none';
+        });
+
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const passcode = document.getElementById('adminPasscode').value;
+           
+            if (passcode === ADMIN_PASSCODE) {
+                isAdminLoggedIn = true;
+                localStorage.setItem('isAdminLoggedIn', 'true');
+                adminPanel.style.display = 'block';
+                loginModal.style.display = 'none';
+                loadAdminData();
+                // Reload apps to add tracking for website clicks
+                loadApps();
+            } else {
+                alert('Invalid passcode!');
+            }
+        });
+
+        adminLogout.addEventListener('click', () => {
+            isAdminLoggedIn = false;
+            localStorage.setItem('isAdminLoggedIn', 'false');
+            adminPanel.style.display = 'none';
+            // Reload apps to remove tracking for website clicks
+            loadApps();
+        });
+
+        addAppForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+           
+            const appName = document.getElementById('appName').value;
+            const appImage = document.getElementById('appImage').value;
+            const appFile = document.getElementById('appFile').value;
+            const appWebsite = document.getElementById('appWebsite').value;
+           
+            try {
+                await addDoc(collection(db, "apps"), {
+                    name: appName,
+                    imageUrl: appImage,
+                    fileUrl: appFile,
+                    websiteUrl: appWebsite,
+                    downloadCount: 0,
+                    timestamp: new Date().toISOString()
+                });
+               
+                alert('App added successfully!');
+                addAppForm.reset();
+                loadApps();
+            } catch (error) {
+                console.error("Error adding app: ", error);
+                alert('Error adding app. Please try again.');
+            }
+        });
+
+        searchBtn.addEventListener('click', () => {
+            const searchTerm = searchInput.value.toLowerCase();
+            const appCards = document.querySelectorAll('.app-card');
+           
+            appCards.forEach(card => {
+                const appName = card.querySelector('.app-name').textContent.toLowerCase();
+                if (appName.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
             });
         });
+
+        // Tab switching
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabId = btn.getAttribute('data-tab');
+               
+                // Update active tab button
+                tabBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+               
+                // Update active tab content
+                tabContents.forEach(content => {
+                    content.classList.remove('active');
+                    if (content.id === tabId) {
+                        content.classList.add('active');
+                    }
+                });
+            });
+        });
+
+        // Initialize the app
+        initApp();
     </script>
 </body>
-</html>
+																	</html>
