@@ -143,12 +143,23 @@
             align-items: center;
             justify-content: center;
             overflow: hidden;
+            background-image: linear-gradient(45deg, #f0f0f0 25%, transparent 25%), 
+                              linear-gradient(-45deg, #f0f0f0 25%, transparent 25%), 
+                              linear-gradient(45deg, transparent 75%, #f0f0f0 75%), 
+                              linear-gradient(-45deg, transparent 75%, #f0f0f0 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
         }
 
         .app-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .app-card:hover .app-image img {
+            transform: scale(1.05);
         }
 
         .app-info {
@@ -317,6 +328,19 @@
             font-weight: 600;
         }
 
+        .test-btn {
+            background-color: #4361ee;
+            color: var(--white);
+            border: none;
+            padding: 12px 25px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            margin-top: 10px;
+            width: 100%;
+        }
+
         .visitors-table {
             width: 100%;
             border-collapse: collapse;
@@ -473,7 +497,8 @@
                     </div>
                     <div class="form-group">
                         <label for="appImage">App Image URL</label>
-                        <input type="text" id="appImage" required>
+                        <input type="text" id="appImage" required placeholder="https://example.com/image.jpg">
+                        <small style="color: #666;">Use valid image URLs like: https://via.placeholder.com/300x180</small>
                     </div>
                     <div class="form-group">
                         <label for="appFile">APK File URL</label>
@@ -485,6 +510,7 @@
                     </div>
                     <button type="submit" class="submit-btn">Add App</button>
                 </form>
+                <button type="button" class="test-btn" id="addSampleAppsBtn">Add Sample Apps (Test)</button>
             </div>
 
             <!-- Visitors Tab -->
@@ -587,12 +613,16 @@
         const todayVisitorsEl = document.getElementById('todayVisitors');
         const totalDownloadsEl = document.getElementById('totalDownloads');
         const totalAppsEl = document.getElementById('totalApps');
+        const addSampleAppsBtn = document.getElementById('addSampleAppsBtn');
 
-        // Admin passcode (in a real app, this should be more secure)
+        // Admin passcode
         const ADMIN_PASSCODE = "admin123";
 
         // Check if user is logged in
         let isAdminLoggedIn = localStorage.getItem('isAdminLoggedIn') === 'true';
+
+        // Default placeholder image
+        const DEFAULT_IMAGE = 'https://via.placeholder.com/300x180.png/4361ee/ffffff?text=App+Image';
 
         // Initialize the app
         function initApp() {
@@ -611,14 +641,36 @@
             recordVisitor();
         }
 
+        // URL validation function
+        function isValidUrl(string) {
+            try {
+                new URL(string);
+                return true;
+            } catch (_) {
+                return false;
+            }
+        }
+
         // Load apps from Firestore
         async function loadApps() {
             try {
                 const querySnapshot = await getDocs(collection(db, "apps"));
                 appsGrid.innerHTML = '';
                
+                console.log("Total apps found:", querySnapshot.size);
+               
+                if (querySnapshot.size === 0) {
+                    appsGrid.innerHTML = `
+                        <div style="grid-column: 1 / -1; text-align: center; padding: 40px;">
+                            <h3>No apps found</h3>
+                            <p>Add some apps from the admin panel to get started!</p>
+                        </div>
+                    `;
+                }
+               
                 querySnapshot.forEach((doc) => {
                     const app = doc.data();
+                    console.log("App data:", app);
                     const appCard = createAppCard(app, doc.id);
                     appsGrid.appendChild(appCard);
                 });
@@ -629,6 +681,12 @@
                 }
             } catch (error) {
                 console.error("Error loading apps: ", error);
+                appsGrid.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--primary-red);">
+                        <h3>Error loading apps</h3>
+                        <p>Please check your internet connection and try again.</p>
+                    </div>
+                `;
             }
         }
 
@@ -636,9 +694,15 @@
         function createAppCard(app, id) {
             const appCard = document.createElement('div');
             appCard.className = 'app-card';
+            
+            // Use default image if imageUrl is invalid
+            const imageUrl = app.imageUrl && isValidUrl(app.imageUrl) ? app.imageUrl : DEFAULT_IMAGE;
+            
             appCard.innerHTML = `
                 <div class="app-image">
-                    <img src="${app.imageUrl}" alt="${app.name}" onerror="this.src='https://via.placeholder.com/300x180?text=App+Image'">
+                    <img src="${imageUrl}" alt="${app.name}" 
+                         onerror="this.src='${DEFAULT_IMAGE}'"
+                         loading="lazy">
                 </div>
                 <div class="app-info">
                     <h3 class="app-name">${app.name}</h3>
@@ -652,12 +716,6 @@
             // Add download event listener
             const downloadBtn = appCard.querySelector('.download-btn');
             downloadBtn.addEventListener('click', () => downloadApp(id, app.name));
-           
-            // Add website click tracking if admin is logged in
-            if (app.websiteUrl && isAdminLoggedIn) {
-                const websiteBtn = appCard.querySelector('.website-btn');
-                websiteBtn.addEventListener('click', () => recordWebsiteClick(id, app.name));
-            }
            
             return appCard;
         }
@@ -690,12 +748,12 @@
         // Record visitor information
         async function recordVisitor() {
             try {
-                // Get visitor IP (using a free IP API)
+                // Get visitor IP
                 const ipResponse = await fetch('https://api.ipify.org?format=json');
                 const ipData = await ipResponse.json();
                 const ip = ipData.ip;
                
-                // Get location data (using a free IP geolocation API)
+                // Get location data
                 const locationResponse = await fetch(`https://ipapi.co/${ip}/json/`);
                 const locationData = await locationResponse.json();
                
@@ -761,33 +819,44 @@
             }
         }
 
-        // Record website click
-        async function recordWebsiteClick(appId, appName) {
+        // Add sample apps for testing
+        async function addSampleApps() {
+            const sampleApps = [
+                {
+                    name: "WhatsApp Messenger",
+                    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg",
+                    fileUrl: "https://www.whatsapp.com/download",
+                    websiteUrl: "https://whatsapp.com",
+                    downloadCount: 0,
+                    timestamp: new Date().toISOString()
+                },
+                {
+                    name: "Facebook",
+                    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg",
+                    fileUrl: "https://www.facebook.com/mobile/",
+                    websiteUrl: "https://facebook.com",
+                    downloadCount: 0,
+                    timestamp: new Date().toISOString()
+                },
+                {
+                    name: "Instagram",
+                    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png",
+                    fileUrl: "https://www.instagram.com/download/",
+                    websiteUrl: "https://instagram.com",
+                    downloadCount: 0,
+                    timestamp: new Date().toISOString()
+                }
+            ];
+
             try {
-                // Get visitor IP
-                const ipResponse = await fetch('https://api.ipify.org?format=json');
-                const ipData = await ipResponse.json();
-                const ip = ipData.ip;
-               
-                // Get location data
-                const locationResponse = await fetch(`https://ipapi.co/${ip}/json/`);
-                const locationData = await locationResponse.json();
-               
-                const websiteClickData = {
-                    appId: appId,
-                    appName: appName,
-                    ip: ip,
-                    location: `${locationData.city}, ${locationData.country_name}`,
-                    device: navigator.userAgent,
-                    timestamp: new Date().toISOString(),
-                    date: new Date().toLocaleDateString()
-                };
-               
-                // Add to Firestore
-                await addDoc(collection(db, "websiteClicks"), websiteClickData);
-               
+                for (const app of sampleApps) {
+                    await addDoc(collection(db, "apps"), app);
+                }
+                alert('Sample apps added successfully!');
+                loadApps();
             } catch (error) {
-                console.error("Error recording website click: ", error);
+                console.error("Error adding sample apps: ", error);
+                alert('Error adding sample apps. Please try again.');
             }
         }
 
@@ -807,7 +876,7 @@
                     row.innerHTML = `
                         <td>${visitor.ip}</td>
                         <td>${visitor.location}</td>
-                        <td>${visitor.device.substring(0, 50)}...</td>
+                        <td title="${visitor.device}">${visitor.device.substring(0, 50)}...</td>
                         <td>${new Date(visitor.timestamp).toLocaleString()}</td>
                     `;
                     visitorsTableBody.appendChild(row);
@@ -871,7 +940,6 @@
                 adminPanel.style.display = 'block';
                 loginModal.style.display = 'none';
                 loadAdminData();
-                // Reload apps to add tracking for website clicks
                 loadApps();
             } else {
                 alert('Invalid passcode!');
@@ -882,7 +950,6 @@
             isAdminLoggedIn = false;
             localStorage.setItem('isAdminLoggedIn', 'false');
             adminPanel.style.display = 'none';
-            // Reload apps to remove tracking for website clicks
             loadApps();
         });
 
@@ -893,6 +960,24 @@
             const appImage = document.getElementById('appImage').value;
             const appFile = document.getElementById('appFile').value;
             const appWebsite = document.getElementById('appWebsite').value;
+           
+            // Image URL validation
+            if (appImage && !isValidUrl(appImage)) {
+                alert('Please enter a valid image URL');
+                return;
+            }
+           
+            // File URL validation
+            if (!isValidUrl(appFile)) {
+                alert('Please enter a valid file URL');
+                return;
+            }
+           
+            // Website URL validation (optional)
+            if (appWebsite && !isValidUrl(appWebsite)) {
+                alert('Please enter a valid website URL');
+                return;
+            }
            
             try {
                 await addDoc(collection(db, "apps"), {
@@ -913,18 +998,40 @@
             }
         });
 
+        addSampleAppsBtn.addEventListener('click', addSampleApps);
+
         searchBtn.addEventListener('click', () => {
-            const searchTerm = searchInput.value.toLowerCase();
+            const searchTerm = searchInput.value.toLowerCase().trim();
             const appCards = document.querySelectorAll('.app-card');
+            let found = false;
            
             appCards.forEach(card => {
                 const appName = card.querySelector('.app-name').textContent.toLowerCase();
                 if (appName.includes(searchTerm)) {
                     card.style.display = 'block';
+                    found = true;
                 } else {
                     card.style.display = 'none';
                 }
             });
+           
+            if (!found && searchTerm) {
+                appsGrid.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 40px;">
+                        <h3>No apps found for "${searchTerm}"</h3>
+                        <p>Try searching with different keywords.</p>
+                    </div>
+                `;
+            } else if (!searchTerm) {
+                loadApps();
+            }
+        });
+
+        // Enter key for search
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                searchBtn.click();
+            }
         });
 
         // Tab switching
@@ -950,4 +1057,4 @@
         initApp();
     </script>
 </body>
-																	</html>
+</html>
